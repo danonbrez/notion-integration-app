@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+  title: Sopheon Notion Integration API
+  description: API for integrating Sopheon with Notion database.
+  version: 1.0.0
+paths:
+  /notion_integration:
+    post:
+      summary: Fetch and process data from Notion
+      description: Fetches data from the specified Notion database and processes it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action_name:
+                  type: string
+                  description: The name of the action to execute.
+                  example: notion_integration
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  processed_title:
+                    type: string
+                    description: The processed title from Notion data.
+                  processed_content:
+                    type: string
+                    description: The processed content from Notion data.
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    NotionIntegrationRequest:
+      type: object
+      properties:
+        action_name:
+          type: string
+          description: The name of the action to execute.
+          example: notion_integration
+    NotionIntegrationResponse:
+      type: object
+      properties:
+        processed_title:
+          type: string
+          description: The processed title from Notion data.
+        processed_content:
+          type: string
+          description: The processed content from Notion data.
