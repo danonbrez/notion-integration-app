@@ -1,30 +1,29 @@
-import os
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from notion_client import Client
+import json
 
-app = Flask(__name__)
-CORS(app)  # This will enable CORS for all routes
+# Load configuration
+with open('config_corrected.json.txt', 'r') as config_file:
+    config = json.load(config_file)
 
-@app.route('/', methods=['GET'])
-def home():
-    return "Hello, World!"
+integration_token = config["notion_token"]
+database_id = config["database_id"]
 
-@app.route('/notion_integration', methods=['POST'])
-def notion_integration():
-    try:
-        data = request.json
-        action_name = data.get('action_name')
-        if action_name == 'notion_integration':
-            result = {
-                "processed_title": "SAMPLE NOTION DATA",
-                "processed_content": "This is a sample content fetched from notion database."
-            }
-            return jsonify(result), 200
-        else:
-            return jsonify({"error": "Unknown action"}), 400
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+# Initialize the Notion client
+notion = Client(auth=integration_token)
 
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+class DataFetcher:
+    def __init__(self, notion, database_id):
+        self.notion = notion
+        self.database_id = database_id
+
+    def fetch_data(self):
+        response = self.notion.databases.query(
+            database_id=self.database_id
+        )
+        return response
+
+# Instantiate DataFetcher and fetch data
+data_fetcher = DataFetcher(notion, database_id)
+fetched_data = data_fetcher.fetch_data()
+
+print(fetched_data)
