@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-import json
 
 app = Flask(__name__)
 
@@ -9,7 +8,6 @@ def notion_integration():
         data = request.json
         action_name = data.get('action_name')
         if action_name == 'notion_integration':
-            # Call the function to fetch and process data
             result = {
                 "processed_title": "SAMPLE NOTION DATA",
                 "processed_content": "This is a sample content fetched from notion database."
