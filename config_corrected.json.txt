@@ -1,0 +1,5 @@
+{
+  "notion_token": "secret_aJ2GeLR4Y7a9XwlB1MgpgbawzzVDVoQlYEw8juD8Yxq",
+  "database_id": "702e4c56f28344aab1673b64ab54b7ae"
+}
+
